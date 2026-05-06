@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BabyFlow — Rotina que funciona de verdade</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FDF8F3;
+  --warm-white: #FEFCFA;
+  --blush: #F5E6DC;
+  --rose: #E8C5B0;
+  --terracotta: #C4705A;
+  --deep: #2C1810;
+  --muted: #7A6058;
+  --sage: #8FA68A;
+  --sage-light: #EFF4EE;
+  --gold: #C9A96E;
+  --gold-light: #F7F0E4;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--deep);
+  overflow-x: hidden;
+}
+.hero {
+  min-height: 100vh;
+  background: var(--warm-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #F5E6DC 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -150px; left: -150px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #EFF4EE 0%, transparent 70%);
+  pointer-events: none;
+}
+.badge-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold-light);
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8B6914;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+.badge-top span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: block; }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  max-width: 780px;
+  margin-bottom: 24px;
+  color: var(--deep);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero h1 em { font-style: italic; color: var(--terracotta); }
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  font-weight: 300;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.cta-primary {
+  display: inline-block;
+  background: var(--terracotta);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 18px 44px;
+  border-radius: 100px;
+  text-decoration: none;
+  letter-spacing: .01em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 32px rgba(196,112,90,0.35);
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(196,112,90,0.45); }
+.cta-sub { margin-top: 14px; font-size: 12px; color: var(--muted); animation: fadeUp 0.6s 0.4s ease both; }
+.cta-sub strong { color: var(--sage); }
+.hero-proof { display: flex; align-items: center; gap: 16px; margin-top: 48px; animation: fadeUp 0.6s 0.5s ease both; }
+.avatars { display: flex; }
+.avatars img, .avatar-ph {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--warm-white);
+  margin-left: -10px;
+  object-fit: cover;
+  background: var(--blush);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--terracotta);
+}
+.avatars .avatar-ph:first-child { margin-left: 0; }
+.proof-text { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.proof-text strong { color: var(--deep); display: block; }
+.dor-section { background: var(--deep); padding: 80px 24px; text-align: center; }
+.dor-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--warm-white);
+  max-width: 680px;
+  margin: 0 auto 16px;
+  line-height: 1.25;
+}
+.dor-section h2 em { color: var(--rose); font-style: italic; }
+.dor-sub { color: rgba(253,248,243,.55); font-size: 1rem; max-width: 500px; margin: 0 auto 52px; line-height: 1.7; }
+.dor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
+.dor-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 28px 24px; text-align: left; }
+.dor-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+.dor-card h3 { font-size: 15px; font-weight: 600; color: var(--warm-white); margin-bottom: 8px; }
+.dor-card p { font-size: 13px; color: rgba(253,248,243,.5); line-height: 1.6; }
+.promessa { padding: 90px 24px; max-width: 800px; margin: 0 auto; text-align: center; }
+.section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px; }
+.promessa h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; line-height: 1.15; margin-bottom: 24px; }
+.promessa h2 em { font-style: italic; color: var(--terracotta); }
+.promessa p { font-size: 1.05rem; color: var(--muted); line-height: 1.8; max-width: 620px; margin: 0 auto 20px; }
+.produto-section { background: var(--blush); padding: 80px 24px; }
+.produto-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.produto-visual { position: relative; }
+.ebook-mockup {
+  width: 100%; max-width: 340px; margin: 0 auto; display: block;
+  background: var(--warm-white); border-radius: 20px; padding: 40px 32px;
+  box-shadow: 0 30px 80px rgba(44,24,16,.12), 0 8px 24px rgba(44,24,16,.06);
+  position: relative;
+}
+.ebook-mockup::before {
+  content: ''; position: absolute; top: -8px; left: 6px; right: -6px; bottom: -8px;
+  background: var(--rose); border-radius: 20px; z-index: -1;
+}
+.ebook-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--terracotta); margin-bottom: 4px; }
+.ebook-tagline { font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 24px; }
+.ebook-divider { height: 1px; background: var(--rose); margin-bottom: 20px; }
+.ebook-chapters { list-style: none; }
+.ebook-chapters li { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--deep); padding: 6px 0; border-bottom: 1px solid var(--blush); }
+.ebook-chapters li::before { content: '✦'; color: var(--terracotta); font-size: 8px; flex-shrink: 0; }
+.bonus-tag { position: absolute; top: -16px; right: -16px; background: var(--terracotta); color: #fff; font-size: 11px; font-weight: 700; padding: 8px 14px; border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 16px rgba(196,112,90,.4); }
+.produto-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
+.produto-content h2 em { font-style: italic; color: var(--terracotta); }
+.produto-content p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 28px; }
+.feature-list { list-style: none; }
+.feature-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid rgba(196,112,90,.15); font-size: 14px; color: var(--deep); line-height: 1.5; }
+.feature-list li:last-child { border-bottom: none; }
+.feature-check { width: 22px; height: 22px; border-radius: 50%; background: var(--terracotta); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.beneficios { padding: 90px 24px; max-width: 1040px; margin: 0 auto; }
+.beneficios h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; text-align: center; margin-bottom: 12px; line-height: 1.2; }
+.beneficios h2 em { font-style: italic; color: var(--terracotta); }
+.beneficios-sub { text-align: center; color: var(--muted); font-size: 1rem; max-width: 500px; margin: 0 auto 52px; line-height: 1.7; }
+.ben-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.ben-card { background: var(--warm-white); border: 1px solid var(--rose); border-radius: 24px; padding: 32px 28px; transition: transform 0.2s, box-shadow 0.2s; }
+.ben-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(44,24,16,.08); }
+.ben-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--blush); line-height: 1; margin-bottom: 12px; }
+.ben-card h3 { font-size: 16px; font-weight: 600; color: var(--deep); margin-bottom: 10px; }
+.ben-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.depoimentos { background: var(--deep); padding: 90px 24px; }
+.depoimentos h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--warm-white); text-align: center; margin-bottom: 8px; }
+.depoimentos h2 em { font-style: italic; color: var(--rose); }
+.dep-sub { text-align: center; color: rgba(253,248,243,.45); font-size: .95rem; margin-bottom: 52px; }
+.dep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto 52px; }
+.dep-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 32px 28px; }
+.dep-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+.dep-text { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; color: var(--warm-white); line-height: 1.7; margin-bottom: 20px; }
+.dep-author { display: flex; align-items: center; gap: 12px; }
+.dep-av { width: 40px; height: 40px; border-radius: 50%; background: var(--terracotta); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.dep-name { font-size: 13px; font-weight: 600; color: var(--warm-white); }
+.dep-info { font-size: 11px; color: rgba(253,248,243,.4); }
+.dep-number { text-align: center; }
+.dep-number-val { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--rose); }
+.dep-number-label { font-size: 14px; color: rgba(253,248,243,.5); margin-top: 4px; }
+.oferta { padding: 90px 24px; background: var(--cream); }
+.oferta-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+.oferta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; margin-bottom: 16px; line-height: 1.15; }
+.oferta h2 em { font-style: italic; color: var(--terracotta); }
+.oferta-sub { color: var(--muted); font-size: 1rem; line-height: 1.7; margin-bottom: 40px; }
+.price-box { background: var(--warm-white); border: 2px solid var(--terracotta); border-radius: 28px; padding: 44px 40px; position: relative; margin-bottom: 24px; box-shadow: 0 20px 60px rgba(196,112,90,.12); }
+.price-badge { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: var(--terracotta); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 20px; border-radius: 100px; white-space: nowrap; letter-spacing: .03em; }
+.price-old { font-size: 14px; color: var(--muted); text-decoration: line-through; margin-bottom: 4px; }
+.price-val { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--deep); line-height: 1; margin-bottom: 4px; }
+.price-val span { font-size: 1.4rem; vertical-align: top; margin-top: 10px; display: inline-block; }
+.price-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.includes { list-style: none; text-align: left; margin-bottom: 32px; }
+.includes li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--blush); font-size: 14px; color: var(--deep); line-height: 1.5; }
+.includes li:last-child { border-bottom: none; }
+.inc-check { color: var(--sage); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.inc-bonus { color: var(--terracotta); font-size: 11px; font-weight: 600; background: var(--gold-light); padding: 2px 8px; border-radius: 100px; margin-left: 6px; }
+.cta-box .cta-primary { width: 100%; text-align: center; font-size: 1.1rem; padding: 20px 44px; border-radius: 16px; display: block; }
+.guarantee { display: flex; align-items: center; gap: 12px; background: var(--sage-light); border-radius: 14px; padding: 16px 20px; margin-top: 20px; text-align: left; }
+.guarantee-icon { font-size: 28px; flex-shrink: 0; }
+.guarantee p { font-size: 13px; color: var(--deep); line-height: 1.55; }
+.guarantee p strong { display: block; font-size: 14px; margin-bottom: 2px; color: var(--sage); }
+.urgency { background: var(--gold-light); border: 1px solid var(--gold); border-radius: 14px; padding: 14px 20px; margin-top: 16px; font-size: 13px; color: #8B6914; font-weight: 500; display: flex; align-items: center; gap: 8px; justify-content: center; }
+.faq { padding: 80px 24px; max-width: 680px; margin: 0 auto; }
+.faq h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; text-align: center; margin-bottom: 40px; }
+.faq-item { border-bottom: 1px solid var(--rose); padding: 20px 0; }
+.faq-q { font-size: 15px; font-weight: 600; color: var(--deep); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; user-select: none; }
+.faq-q::after { content: '+'; font-size: 22px; color: var(--terracotta); flex-shrink: 0; transition: transform .2s; }
+.faq-item.open .faq-q::after { transform: rotate(45deg); }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; }
+.faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
+.cta-final { background: var(--terracotta); padding: 90px 24px; text-align: center; position: relative; overflow: hidden; }
+.cta-final::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,255,255,.06); }
+.cta-final h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; max-width: 680px; margin: 0 auto 20px; line-height: 1.15; position: relative; }
+.cta-final h2 em { font-style: italic; opacity: .85; }
+.cta-final p { color: rgba(255,255,255,.75); font-size: 1.05rem; max-width: 520px; margin: 0 auto 40px; line-height: 1.7; position: relative; }
+.cta-final .cta-primary { background: #fff; color: var(--terracotta); position: relative; }
+.cta-final .cta-primary:hover { box-shadow: 0 14px 40px rgba(0,0,0,.25); }
+.cta-final-sub { color: rgba(255,255,255,.6); font-size: 12px; margin-top: 16px; position: relative; }
+footer { background: var(--deep); padding: 32px 24px; text-align: center; }
+footer p { font-size: 12px; color: rgba(253,248,243,.3); line-height: 1.7; }
+footer a { color: rgba(253,248,243,.5); text-decoration: none; }
+footer a:hover { color: var(--rose); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (max-width: 700px) {
+  .produto-inner { grid-template-columns: 1fr; gap: 40px; }
+  .ebook-mockup { max-width: 280px; }
+  .price-box { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="badge-top"><span></span>Método científico para mães de primeira viagem</div>
+  <h1>Seu bebê vai dormir.<br><em>Você vai respirar.</em></h1>
+  <p class="hero-sub">O BabyFlow é o único ebook com o método completo de rotina baseado no ritmo natural do bebê — passo a passo, sem achismo, sem culpa.</p>
+  <a href="https://ggcheckout.app/checkout/v5/sM9yp5hUGWWylu4tuUft" class="cta-primary">Quero o BabyFlow agora →</a>
+  <p class="cta-sub">✦ Acesso imediato &nbsp;·&nbsp; <strong>Bônus exclusivo incluso</strong> &nbsp;·&nbsp; Garantia de 7 dias</p>
+  <div class="hero-proof">
+    <div class="avatars">
+      <div class="avatar-ph">AM</div>
+      <div class="avatar-ph">JL</div>
+      <div class="avatar-ph">RC</div>
+      <div class="avatar-ph">FS</div>
+    </div>
+    <div class="proof-text">
+      <strong>+1.200 mães já transformaram sua rotina</strong>
+      ⭐⭐⭐⭐⭐ 4.9 de avaliação média
+    </div>
+  </div>
+</section>
+
+<section class="dor-section">
+  <h2>Você reconhece <em>alguma dessas</em> situações?</h2>
+  <p class="dor-sub">Se você respondeu sim para qualquer uma — você está no lugar certo.</p>
+  <div class="dor-grid">
+    <div class="dor-card"><span class="dor-icon">😮‍💨</span><h3>Seu bebê não dorme e você não aguenta mais</h3><p>Cada noite é uma roleta. Você está no limite do cansaço e não vê saída.</p></div>
+    <div class="dor-card"><span class="dor-icon">😰</span><h3>Não existe rotina — cada dia é diferente do outro</h3><p>Sem previsão, sem planejamento. Você não consegue nem ter 30 minutos para você.</p></div>
+    <div class="dor-card"><span class="dor-icon">💭</span><h3>Você sente que está errando em tudo</h3><p>A culpa está sempre presente. Parece que todas as outras mães sabem o que estão fazendo — menos você.</p></div>
+    <div class="dor-card"><span class="dor-icon">😢</span><h3>A ansiedade não para de crescer</h3><p>O medo de errar paralisa. Cada choro do bebê dói de um jeito diferente.</p></div>
+  </div>
+</section>
+
+<section class="promessa reveal">
+  <div class="section-eyebrow">A transformação que você precisa</div>
+  <h2>Imagina acordar amanhã sabendo <em>exatamente</em> o que fazer</h2>
+  <p>Sem adivinhar. Sem culpa. Com um método que respeita o ritmo natural do seu bebê — e que devolve a sua paz de volta.</p>
+  <p>É isso que o BabyFlow entrega. Não é promessa vazia. É ciência aplicada à maternidade real.</p>
+</section>
+
+<section class="produto-section">
+  <div class="produto-inner">
+    <div class="produto-visual reveal">
+      <div class="ebook-mockup">
+        <div class="bonus-tag">🎁 Bônus Exclusivo Incluso</div>
+        <div class="ebook-logo">BabyFlow</div>
+        <div class="ebook-tagline">Método de Rotina para o Bebê</div>
+        <div class="ebook-divider"></div>
+        <ul class="ebook-chapters">
+          <li>O ritmo natural do bebê explicado</li>
+          <li>Criando a rotina nos primeiros 30 dias</li>
+          <li>Método de sono passo a passo</li>
+          <li>Amamentação e horários</li>
+          <li>Sinais do bebê desvendados</li>
+          <li>Rotina da mãe dentro da rotina do bebê</li>
+          <li>Planilha de rotina editável</li>
+          <li>BÔNUS: Guia do Sono Profundo</li>
+        </ul>
+      </div>
+    </div>
+    <div class="produto-content reveal">
+      <div class="section-eyebrow">O que é o BabyFlow</div>
+      <h2>O método completo de rotina que <em>funciona de verdade</em></h2>
+      <p>O BabyFlow não é um livro de teoria. É um guia prático, direto ao ponto, criado especificamente para mães de primeira viagem que precisam de resultado rápido — sem precisar ler 300 páginas.</p>
+      <ul class="feature-list">
+        <li><div class="feature-check">✓</div><div>Método baseado nos ritmos circadianos e biológicos do bebê — não em achismos</div></li>
+        <li><div class="feature-check">✓</div><div>Passo a passo para criar a rotina a partir da primeira semana em casa</div></li>
+        <li><div class="feature-check">✓</div><div>Técnicas de sono validadas por especialistas em desenvolvimento infantil</div></li>
+        <li><div class="feature-check">✓</div><div>Como ler os sinais do bebê e parar de adivinhar o que ele quer</div></li>
+        <li><div class="feature-check">✓</div><div>Planilha de rotina editável para preencher com os horários do seu bebê</div></li>
+        <li><div class="feature-check">✓</div><div>Acesso imediato em qualquer dispositivo — leia onde quiser</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="beneficios">
+  <div class="section-eyebrow">O que muda na sua vida</div>
+  <h2>Depois do BabyFlow, <em>tudo fica mais leve</em></h2>
+  <p class="beneficios-sub">Mães que seguiram o método relatam mudanças em menos de uma semana. Veja o que você vai conquistar:</p>
+  <div class="ben-grid">
+    <div class="ben-card reveal"><div class="ben-num">01</div><h3>Sono de qualidade — para o bebê e para você</h3><p>O método cria janelas de sono previsíveis em dias. Noites melhores mudam tudo na sua capacidade de ser mãe.</p></div>
+    <div class="ben-card reveal"><div class="ben-num">02</div><h3>Rotina com previsibilidade real</h3><p>Você vai saber o que acontece nas próximas horas. Isso é liberdade — e devolve o seu dia para você.</p></div>
+    <div class="ben-card reveal"><div class="ben-num">03</div><h3>Fim da culpa e da ansiedade</h3><p>Quando você tem um método, a insegurança some. Você sabe que está fazendo certo — porque está.</p></div>
+    <div class="ben-card reveal"><div class="ben-num">04</div><h3>Conexão mais profunda com seu bebê</h3><p>Quando você entende os sinais dele, cada momento vira presença — não sobrevivência.</p></div>
+    <div class="ben-card reveal"><div class="ben-num">05</div><h3>Tempo para você voltar a existir</h3><p>Com uma rotina que funciona, surgem espaços para você cuidar de si mesma sem culpa.</p></div>
+    <div class="ben-card reveal"><div class="ben-num">06</div><h3>Confiança para tomar decisões</h3><p>Você para de depender de opinião de todo mundo. Você sabe o que é melhor para o seu bebê.</p></div>
+  </div>
+</section>
+
+<section class="depoimentos">
+  <h2>Mães reais. <em>Resultados reais.</em></h2>
+  <p class="dep-sub">O que aconteceu depois que elas aplicaram o BabyFlow</p>
+  <div class="dep-grid">
+    <div class="dep-card reveal">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"Na primeira semana já consegui colocar minha filha para dormir com horário fixo. Sério, eu chorei de alívio. Não sabia que era possível ter isso tão rápido."</p>
+      <div class="dep-author"><div class="dep-av">AM</div><div><div class="dep-name">Ana Maria S.</div><div class="dep-info">Mãe da Isabela, 2 meses</div></div></div>
+    </div>
+    <div class="dep-card reveal">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"Eu me sentia completamente perdida. O BabyFlow me deu um norte. Em menos de 10 dias meu bebê já tinha uma rotina de verdade. Eu me sinto outra pessoa."</p>
+      <div class="dep-author"><div class="dep-av">JL</div><div><div class="dep-name">Juliana L.</div><div class="dep-info">Mãe do Miguel, 7 semanas</div></div></div>
+    </div>
+    <div class="dep-card reveal">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"Fui mãe de primeira viagem sem apoio nenhum por perto. O BabyFlow foi minha âncora. Li em dois dias e já comecei a aplicar. A diferença foi imediata."</p>
+      <div class="dep-author"><div class="dep-av">RC</div><div><div class="dep-name">Renata C.</div><div class="dep-info">Mãe da Sofia, 3 meses</div></div></div>
+    </div>
+  </div>
+  <div class="dep-number reveal">
+    <div class="dep-number-val">+1.200</div>
+    <div class="dep-number-label">mães transformaram sua rotina com o BabyFlow</div>
+  </div>
+</section>
+
+<section class="oferta" id="oferta">
+  <div class="oferta-inner reveal">
+    <div class="section-eyebrow">Oferta especial de lançamento</div>
+    <h2>Tudo que você precisa para <em>virar o jogo</em> agora</h2>
+    <p class="oferta-sub">Acesso imediato ao BabyFlow completo + bônus exclusivo que não encontra em lugar nenhum. Por um valor que cabe no seu bolso.</p>
+    <div class="price-box">
+      <div class="price-badge">🔥 Oferta por tempo limitado</div>
+      <p class="price-old">De R$ 97,00</p>
+      <div class="price-val"><span>R$</span> 37</div>
+      <p class="price-period">pagamento único · acesso vitalício</p>
+      <ul class="includes">
+        <li><span class="inc-check">✓</span><div>BabyFlow — Ebook completo (método + planilha de rotina)</div></li>
+        <li><span class="inc-check">✓</span><div>BÔNUS: Guia do Sono Profundo do Bebê <span class="inc-bonus">EXCLUSIVO</span></div></li>
+        <li><span class="inc-check">✓</span><div>Acesso imediato em qualquer dispositivo</div></li>
+        <li><span class="inc-check">✓</span><div>Suporte por e-mail para dúvidas</div></li>
+        <li><span class="inc-check">✓</span><div>Atualizações gratuitas para sempre</div></li>
+      </ul>
+      <div class="cta-box">
+        <a href="https://ggcheckout.app/checkout/v5/sM9yp5hUGWWylu4tuUft" class="cta-primary">Quero o BabyFlow + Bônus agora →</a>
+      </div>
+      <div class="guarantee">
+        <div class="guarantee-icon">🛡️</div>
+        <p><strong>Garantia de 7 dias sem burocracia</strong>Se em uma semana você não sentir diferença, devolvemos 100% do seu dinheiro. Sem perguntas, sem formulários.</p>
+      </div>
+      <div class="urgency">⏰ O bônus exclusivo pode sair a qualquer momento — garanta o seu agora</div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <h2>Suas dúvidas, respondidas</h2>
+  <div class="faq-item">
+    <div class="faq-q">Para qual idade do bebê o método funciona?</div>
+    <div class="faq-a">O BabyFlow foi desenvolvido para bebês de 0 a 6 meses — especialmente os primeiros 90 dias, que são os mais desafiadores. Mas as técnicas de rotina se adaptam para bebês de até 12 meses.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Vou conseguir aplicar mesmo sendo mãe solo?</div>
+    <div class="faq-a">Sim. O método foi pensado para a realidade da mãe — inclusive mães solos. Ele é prático, direto e não exige terceiros para funcionar.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Em quanto tempo vejo resultado?</div>
+    <div class="faq-a">A maioria das mães relata perceber mudança na primeira semana de aplicação consistente. Alguns bebês respondem em 3 dias.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Como recebo o ebook depois da compra?</div>
+    <div class="faq-a">O acesso é imediato. Assim que o pagamento é confirmado, você recebe o link por e-mail e já pode começar a ler no celular, tablet ou computador.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">E se eu não gostar?</div>
+    <div class="faq-a">Você tem 7 dias para pedir o reembolso completo, sem justificativa, sem burocracia. É risco zero para você.</div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <h2>Você merece sentir que está <em>no controle.</em></h2>
+  <p>A maternidade não precisa ser sobrevivência. Com o método certo, ela pode ser presença, paz e conexão. O BabyFlow te dá isso — agora.</p>
+  <a href="https://ggcheckout.app/checkout/v5/sM9yp5hUGWWylu4tuUft" class="cta-primary">Começar agora com bônus exclusivo →</a>
+  <p class="cta-final-sub">✦ Acesso imediato &nbsp;·&nbsp; Garantia de 7 dias &nbsp;·&nbsp; Pagamento único</p>
+</section>
+
+<footer>
+  <p>
+    © 2026 BabyFlow · Todos os direitos reservados<br>
+    <a href="#">Política de Privacidade</a> · <a href="#">Termos de Uso</a> · <a href="#">Suporte</a>
+  </p>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
